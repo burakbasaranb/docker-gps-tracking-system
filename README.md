@@ -32,6 +32,76 @@ This project implements a robust **Docker Container-based** GPS tracking infrast
 - **Microservices Architecture**: Independent service scaling and management
 - **Container Orchestration**: Docker Compose for multi-service coordination
 
+## 📁 Project Structure
+
+```
+docker/
+├── 📦 auto-start.sh                    # Linux System startup automation
+├── 📦 docker-compose.yml               # Main container orchestration
+├── 📦 portainer-service.yml            # Portainer service configuration
+├── 📦 redtakip-docker.service          # Systemd service file
+├── 📦 start.ps1                        # Windows startup script
+├── 📦 stop.ps1                         # Windows shutdown script
+├── 📦 README.md                        # Docker setup documentation
+├── 📦 LINUX_SETUP.md                   # Linux installation guide
+│
+├── 🐍 batch-processor/                 # Python data processing service
+│   ├── Dockerfile                      # Container build configuration
+│   ├── main.py                         # Main data processing logic
+│   ├── requirements.txt                # Python dependencies
+│   └── utils/                          # Utility modules
+│
+├── ⏰ cron-service/                     # Bash automation service
+│   ├── Dockerfile                      # Container build configuration
+│   ├── backups/                        # Database backup storage
+│   ├── logs/                           # Service log files
+│   └── scripts/                        # Automation scripts
+│       ├── batch_process.sh            # Batch processing automation
+│       ├── db_backup.sh                # Database backup automation
+│       ├── go_parse.sh                 # Go parsing automation
+│       ├── log_clear.sh                # Log cleanup automation
+│       ├── parse.sh                    # Data parsing automation
+│       ├── restart_ping.sh             # Service restart automation
+│       ├── startup.sh                  # System startup automation
+│       └── system_check.sh             # Health monitoring automation
+│
+├── 🐹 go-parse-service/                # Go + PHP parsing service
+│   ├── Dockerfile                      # Container build configuration
+│   ├── go.mod                          # Go module definition
+│   ├── go.sum                          # Go dependency checksums
+│   ├── main.go                         # Main Go service logic
+│   └── parse/                          # PHP parsing modules
+│       ├── _base/                      # Base parsing functions
+│       ├── parse.php                   # Main parsing logic
+│       └── test.php                    # Testing functions
+│
+├── 🚀 go-service/                      # Go GPS signal service
+│   ├── Dockerfile                      # Container build configuration
+│   ├── go.mod                          # Go module definition
+│   ├── go.sum                          # Go dependency checksums
+│   └── main.go                         # Main GPS service logic
+│
+└── 📡 teltonika-service/               # Node.js Teltonika protocol service
+    ├── Dockerfile                      # Container build configuration
+    ├── main.js                         # Main service logic
+    ├── package.json                    # Node.js dependencies
+    ├── binutils64/                     # Binary utilities
+    │   ├── binutils.js                 # Binary processing utilities
+    │   ├── package.json                # Package configuration
+    │   └── README.md                   # Documentation
+    └── teltonika-parser/               # Protocol parsing modules
+        ├── codecs/                     # Protocol codec implementations
+        │   ├── codec.js                # Base codec functionality
+        │   ├── codec16.js              # Codec 16 implementation
+        │   ├── codec7.js               # Codec 7 implementation
+        │   └── codec8.js               # Codec 8 implementation
+        ├── index.js                     # Main parser entry point
+        ├── package.json                 # Package configuration
+        ├── README.md                    # Documentation
+        └── test/                        # Testing modules
+            └── test.js                  # Test implementation
+```
+
 ## 🐳 Why Docker?
 
 This project leverages Docker containers for several key advantages:
@@ -54,7 +124,7 @@ This project leverages Docker containers for several key advantages:
 **Features**:
 
 - High-performance GPS data collection
-- Real-time signal processing
+- Raw data listening and storage
 - Efficient memory management
 - Network communication handling
 
@@ -123,22 +193,21 @@ This project leverages Docker containers for several key advantages:
 
 ```
 GPS Devices → Signal Collection → Data Parsing → Processing → Database Storage
-     ↓              ↓              ↓           ↓           ↓
-  Go Service   Teltonika     Parse Service  Batch Proc.  Local DB → Remote DB
-                                                           (Raw Data)  (End User Data)
-                                                           ↓
-                                                    Signal Listening
-                                                    Data Parsing
-                                                    Real-time Processing
-                                                           ↓
-                                                    Clean Data
-                                                    End User Apps
-                                                    Geographic Services
+     ↓              ↓              ↓                  ↓            ↓
+  Go Service   Teltonika     Parse Service      Batch Proc.  Local DB → Remote DB
+                                                            (Raw Data)  (End User Data)
+                                                                   ↓
+                                                           Signal Listening
+                                                           Data Parsing
+                                                           Real-time Processing
+                                                                  ↓
+                                                           Clean Data
+                                                           End User Apps
+                                                           Geographic Services
 
 Container Management & Monitoring
            ↓
       Portainer Service
-      (Port 9000)
 ```
 
 ## 🗄️ Database Structure
