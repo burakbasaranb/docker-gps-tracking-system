@@ -32,7 +32,7 @@ This project implements a robust **Docker Container-based** GPS tracking infrast
 - **Microservices Architecture**: Independent service scaling and management
 - **Container Orchestration**: Docker Compose for multi-service coordination
 
-## 📁 Project Structure
+## 📁 Docker Structure
 
 ```
 docker/
